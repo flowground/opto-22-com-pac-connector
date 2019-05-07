@@ -1,0 +1,9 @@
+{
+    "type": "object",
+    "properties": {
+        "downTimerName": {
+            "required": true,
+            "type": "string"
+        }
+    }
+}

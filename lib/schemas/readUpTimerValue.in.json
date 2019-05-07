@@ -1,0 +1,9 @@
+{
+    "type": "object",
+    "properties": {
+        "upTimerName": {
+            "required": true,
+            "type": "string"
+        }
+    }
+}

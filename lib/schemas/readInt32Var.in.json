@@ -1,0 +1,9 @@
+{
+    "type": "object",
+    "properties": {
+        "int32Name": {
+            "required": true,
+            "type": "string"
+        }
+    }
+}

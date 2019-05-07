@@ -1,0 +1,19 @@
+{
+    "type": "object",
+    "properties": {
+        "int64Name": {
+            "required": true,
+            "type": "string"
+        },
+        "requestBody": {
+            "properties": {
+                "value": {
+                    "description": "Value of the integer64 variable",
+                    "format": "int64",
+                    "type": "integer"
+                }
+            },
+            "type": "object"
+        }
+    }
+}

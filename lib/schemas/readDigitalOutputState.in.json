@@ -1,0 +1,9 @@
+{
+    "type": "object",
+    "properties": {
+        "ioName": {
+            "required": true,
+            "type": "string"
+        }
+    }
+}

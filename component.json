@@ -1,0 +1,979 @@
+{
+    "title": "PAC Control",
+    "description": "#### Revised: 6/15/2018\n\n### Overview\nThis API provides secure access to a SNAP-PAC-R or -S series controller's variable and I/O tags. Confidentiality for API transactions is provided by HTTPS. Authentication uses HTTP Basic Authentication with an API key. An API key ID is submitted in the Basic Authentication userid field and API key value in the password field.\n\n**For more information visit:** [developer.opto22.com](http://developer.opto22.com)\n\n### Examples\n\n**Read an array** of all the integer32 variables defined in the PAC's strategy.\nFor example, on your SNAP-PAC-R or -S series controller at IP address 1.2.3.4, you would use the URL: \n\n```\nhttps://1.2.3.4/api/v1/device/strategy/vars/int32s\n```\nand provide appropriate authentication. The GET response will be a JSON array of name-value \npairs such as: \n```json\n[ { \"nMyVeryFavoriteNumber\": 22 },\n  { \"nWidgetsProducedToday\": 22222 },\n  { \"DELAY_LOOP_TIME_IN_MSECS\"  : 200 } ]\n```\n**Read the engineering units** (EU) of an analog input point configured in the PAC's strategy.\nFor an analog input (I/O point) named aiTemperatureInDegreesF, use \n\n`https://1.2.3.4/api/v1/device/strategy/ios/analogInputs/aiTemperatureInDegreesF/eu`\n\nThe GET response will be a single JSON name-value pair such as:\n```json\n{ \"value\": 72.22 }\n```    \n\n### Note on packet sizes:\nWhen doing POSTs or GETs, the JSON payload in the body should not exceed 3k (3072 bytes).\n",
+    "docsUrl": "",
+    "url": "https://api.apis.guru/v2/specs/opto22.com/pac/R1.0a/swagger.json",
+    "envVars": {},
+    "credentials": {
+        "fields": {
+            "server": {
+                "label": "Server",
+                "viewClass": "SelectView",
+                "model": [
+                    "https://developer.opto22.com/api/v1",
+                    "--- Custom URL"
+                ],
+                "required": true
+            },
+            "otherServer": {
+                "label": "Custom Server URL",
+                "viewClass": "TextFieldView"
+            },
+            "username": {
+                "label": "Username (basicAuth)",
+                "viewClass": "TextFieldView",
+                "note": "HTTP Basic Authentication over HTTPS"
+            },
+            "password": {
+                "label": "Password (basicAuth)",
+                "viewClass": "TextFieldView",
+                "note": "HTTP Basic Authentication over HTTPS"
+            }
+        }
+    },
+    "triggers": {
+        "startFlow": {
+            "main": "./lib/triggers/startFlow.js",
+            "type": "polling",
+            "title": "Start Flow",
+            "fields": {}
+        }
+    },
+    "actions": {
+        "readDeviceDetails": {
+            "main": "./lib/actions/readDeviceDetails.js",
+            "title": "Returns controller's type; firmware version; both mac addresses; and uptime in seconds",
+            "description": "Returns controller's type; firmware version; both mac addresses; and uptime in seconds",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readDeviceDetails.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readStrategyDetails": {
+            "main": "./lib/actions/readStrategyDetails.js",
+            "title": "Returns the name, date, time, and CRC of the strategy currently in the controller, and the number of charts currently running. Empty strings and a 0 will be returned when there is no strategy.",
+            "description": "Returns the name, date, time, and CRC of the strategy currently in the controller, and the number of charts currently running. Empty strings and a 0 will be returned when there is no strategy.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readStrategyDetails.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readAnalogInputs": {
+            "main": "./lib/actions/readAnalogInputs.js",
+            "title": "Returns the name and engineering units (EU) for all analog input points in the strategy",
+            "description": "Returns the name and engineering units (EU) for all analog input points in the strategy",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readAnalogInputs.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readAnalogInputEu": {
+            "main": "./lib/actions/readAnalogInputEu.js",
+            "title": "Reads the value in engineering units (EU) of the specified analog input",
+            "description": "Reads the value in engineering units (EU) of the specified analog input",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readAnalogInputEu.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readAnalogOutputs": {
+            "main": "./lib/actions/readAnalogOutputs.js",
+            "title": "Returns the name and engineering units (EU) for all analog output points in the strategy",
+            "description": "Returns the name and engineering units (EU) for all analog output points in the strategy",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readAnalogOutputs.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readAnalogOutputEu": {
+            "main": "./lib/actions/readAnalogOutputEu.js",
+            "title": "Reads the value in engineering units (EU) of the specified analog output",
+            "description": "Reads the value in engineering units (EU) of the specified analog output",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readAnalogOutputEu.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "writeAnalogOutputEu": {
+            "main": "./lib/actions/writeAnalogOutputEu.js",
+            "title": "Sets the value of the specified analog output point",
+            "description": "Sets the value of the specified analog output point",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/writeAnalogOutputEu.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readDigitalInputs": {
+            "main": "./lib/actions/readDigitalInputs.js",
+            "title": "Returns the name and state (true = on, false = off) of all digital input points in the strategy. If there is no strategy in the controller, or the strategy includes no digital inputs, the returned array will be empty.",
+            "description": "Returns the name and state (true = on, false = off) of all digital input points in the strategy. If there is no strategy in the controller, or the strategy includes no digital inputs, the returned array will be empty.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readDigitalInputs.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readDigitalInputState": {
+            "main": "./lib/actions/readDigitalInputState.js",
+            "title": "Returns the specified digital input point's state (true = on, false = off)",
+            "description": "Returns the specified digital input point's state (true = on, false = off)",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readDigitalInputState.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readDigitalOutputs": {
+            "main": "./lib/actions/readDigitalOutputs.js",
+            "title": "Returns the name and state (true = on, false = off) of all digital output points in the strategy",
+            "description": "Returns the name and state (true = on, false = off) of all digital output points in the strategy",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readDigitalOutputs.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readDigitalOutputState": {
+            "main": "./lib/actions/readDigitalOutputState.js",
+            "title": "Returns the specified digital output point's state (true = on, false = off)",
+            "description": "Returns the specified digital output point's state (true = on, false = off)",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readDigitalOutputState.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "writeDigitalOutputState": {
+            "main": "./lib/actions/writeDigitalOutputState.js",
+            "title": "Sets the value of the specified digital output point",
+            "description": "Sets the value of the specified digital output point",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/writeDigitalOutputState.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readFloatTables": {
+            "main": "./lib/actions/readFloatTables.js",
+            "title": "Returns an array of the name and length of all the float tables in the strategy",
+            "description": "Returns an array of the name and length of all the float tables in the strategy",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readFloatTables.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readFloatTable": {
+            "main": "./lib/actions/readFloatTable.js",
+            "title": "Read table elements\n#### Examples ####\n* Read all elements in a table named ftable: https://1.2.3.4/api/v1/device/strategy/tables/floats/ftable\n* Read elements 5 and up in a table named ftable starting with index 5: https://1.2.3.4/api/v1/device/strategy/tables/floats/ftable?startIndex=5\n* Read 3 consecutive elements in a table named ftable starting with the element at index 10: https://1.2.3.4/api/v1/device/strategy/tables/floats/ftable?startIndex=10&numElements=3\n",
+            "description": "Read table elements\n#### Examples ####\n* Read all elements in a table named ftable: https://1.2.3.4/api/v1/device/strategy/tables/floats/ftable\n* Read elements 5 and up in a table named ftable starting with index 5: https://1.2.3.4/api/v1/device/strategy/tables/floats/ftable?startIndex=5\n* Read 3 consecutive elements in a table named ftable starting with the element at index 10: https://1.2.3.4/api/v1/device/strategy/tables/floats/ftable?startIndex=10&numElements=3\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readFloatTable.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "writeFloatTable": {
+            "main": "./lib/actions/writeFloatTable.js",
+            "title": "Write table elements\n#### Examples ####\n* Write the values (1.5, 2.4, 3.5) to 3 consecutive elements in a table named ftable starting with the element at index 10:POST to https://1.2.3.4/api/v1/device/strategy/tables/floats/ftable?startIndex=10  with body of the POST request set to [ 1.5, 2.4, 3.5 ]\n",
+            "description": "Write table elements\n#### Examples ####\n* Write the values (1.5, 2.4, 3.5) to 3 consecutive elements in a table named ftable starting with the element at index 10:POST to https://1.2.3.4/api/v1/device/strategy/tables/floats/ftable?startIndex=10  with body of the POST request set to [ 1.5, 2.4, 3.5 ]\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/writeFloatTable.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readFloatTableElement": {
+            "main": "./lib/actions/readFloatTableElement.js",
+            "title": "Read specified table element",
+            "description": "Read specified table element",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readFloatTableElement.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "writeFloatTableElement": {
+            "main": "./lib/actions/writeFloatTableElement.js",
+            "title": "Write specified table element",
+            "description": "Write specified table element",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/writeFloatTableElement.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readInt32Tables": {
+            "main": "./lib/actions/readInt32Tables.js",
+            "title": "Returns an array of the name and length of all the integer32 tables in the strategy",
+            "description": "Returns an array of the name and length of all the integer32 tables in the strategy",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readInt32Tables.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readInt32Table": {
+            "main": "./lib/actions/readInt32Table.js",
+            "title": "\"Read a range of table elements from the specified integer32 table\"\n #### Examples ####\n * Read all elements in a table named itable: https://1.2.3.4/api/v1/device/strategy/tables/int32s/itable\n * Read elements 5 and up in a table named itable starting with index 5: https://1.2.3.4/api/v1/device/strategy/tables/int32s/itable?startIndex=5\n * Read 3 consecutive elements in a table named itable starting with the element at index 10: https://1.2.3.4/api/v1/device/strategy/tables/int32s/itable?startIndex=10&numElements=3\n",
+            "description": "\"Read a range of table elements from the specified integer32 table\"\n #### Examples ####\n * Read all elements in a table named itable: https://1.2.3.4/api/v1/device/strategy/tables/int32s/itable\n * Read elements 5 and up in a table named itable starting with index 5: https://1.2.3.4/api/v1/device/strategy/tables/int32s/itable?startIndex=5\n * Read 3 consecutive elements in a table named itable starting with the element at index 10: https://1.2.3.4/api/v1/device/strategy/tables/int32s/itable?startIndex=10&numElements=3\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readInt32Table.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "writeInt32Table": {
+            "main": "./lib/actions/writeInt32Table.js",
+            "title": "\"Write a range of table elements\"\n#### Examples ####\n* Write the values (1, 2, 3) to 3 consecutive elements in a table named itable starting with the element at index 10:POST to https://1.2.3.4/api/v1/device/strategy/tables/int32s/itable?startIndex=10  with body of the POST request set to [ 1, 2, 3 ]      \n",
+            "description": "\"Write a range of table elements\"\n#### Examples ####\n* Write the values (1, 2, 3) to 3 consecutive elements in a table named itable starting with the element at index 10:POST to https://1.2.3.4/api/v1/device/strategy/tables/int32s/itable?startIndex=10  with body of the POST request set to [ 1, 2, 3 ]      \n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/writeInt32Table.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readInt32TableElement": {
+            "main": "./lib/actions/readInt32TableElement.js",
+            "title": "Read specified integer32 table element",
+            "description": "Read specified integer32 table element",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readInt32TableElement.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "writeInt32TableElement": {
+            "main": "./lib/actions/writeInt32TableElement.js",
+            "title": "Write specified integer32 table element",
+            "description": "Write specified integer32 table element",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/writeInt32TableElement.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readInt64Tables": {
+            "main": "./lib/actions/readInt64Tables.js",
+            "title": "Returns an array of the name and length of all the integer64 tables in the strategy",
+            "description": "Returns an array of the name and length of all the integer64 tables in the strategy",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readInt64Tables.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readInt64Table": {
+            "main": "./lib/actions/readInt64Table.js",
+            "title": "\"Read a range of table elements from the specified integer64 table\"\n #### Examples ####\n * Read all elements in a table named i64table: https://1.2.3.4/api/v1/device/strategy/tables/int64s/i64table\n * Read elements 5 and up in a table named i64table starting with index 5: https://1.2.3.4/api/v1/device/strategy/tables/int64s/i64table?startIndex=5\n * Read 3 consecutive elements in a table named i64table starting with the element at index 10: https://1.2.3.4/api/v1/device/strategy/tables/int64s/i64table?startIndex=10&numElements=3\n",
+            "description": "\"Read a range of table elements from the specified integer64 table\"\n #### Examples ####\n * Read all elements in a table named i64table: https://1.2.3.4/api/v1/device/strategy/tables/int64s/i64table\n * Read elements 5 and up in a table named i64table starting with index 5: https://1.2.3.4/api/v1/device/strategy/tables/int64s/i64table?startIndex=5\n * Read 3 consecutive elements in a table named i64table starting with the element at index 10: https://1.2.3.4/api/v1/device/strategy/tables/int64s/i64table?startIndex=10&numElements=3\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readInt64Table.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "writeInt64Table": {
+            "main": "./lib/actions/writeInt64Table.js",
+            "title": "\"Write a range of table elements\"\n#### Examples ####\n* Write the values (1, 2, 3) to 3 consecutive elements in a table named i64table starting with the element at index 10:POST to https://1.2.3.4/api/v1/device/strategy/tables/int64s/i64table?startIndex=10  with body of the POST request set to [ 1, 2, 3 ]\n",
+            "description": "\"Write a range of table elements\"\n#### Examples ####\n* Write the values (1, 2, 3) to 3 consecutive elements in a table named i64table starting with the element at index 10:POST to https://1.2.3.4/api/v1/device/strategy/tables/int64s/i64table?startIndex=10  with body of the POST request set to [ 1, 2, 3 ]\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/writeInt64Table.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readInt64TableAsString": {
+            "main": "./lib/actions/readInt64TableAsString.js",
+            "title": "\"Read a range of table elements from the specified integer64 table\"\n #### Examples ####\n * Read all elements in a table named i64table: https://1.2.3.4/api/v1/device/strategy/tables/int64s/i64table/_string\n * Read elements 5 and up in a table named i64table starting with index 5: https://1.2.3.4/api/v1/device/strategy/tables/int64s/i64table/_string?startIndex=5\n * Read 3 consecutive elements in a table named i64table starting with the element at index 10: https://1.2.3.4/api/v1/device/strategy/tables/int64s/i64table/_string?startIndex=10&numElements=3\n",
+            "description": "\"Read a range of table elements from the specified integer64 table\"\n #### Examples ####\n * Read all elements in a table named i64table: https://1.2.3.4/api/v1/device/strategy/tables/int64s/i64table/_string\n * Read elements 5 and up in a table named i64table starting with index 5: https://1.2.3.4/api/v1/device/strategy/tables/int64s/i64table/_string?startIndex=5\n * Read 3 consecutive elements in a table named i64table starting with the element at index 10: https://1.2.3.4/api/v1/device/strategy/tables/int64s/i64table/_string?startIndex=10&numElements=3\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readInt64TableAsString.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "writeInt64TableAsString": {
+            "main": "./lib/actions/writeInt64TableAsString.js",
+            "title": "\"Write a range of table elements\"\n#### Examples ####\n* Write the values (1, 2, 3) to 3 consecutive elements in a table named i64table starting with the element at index 10:POST to https://1.2.3.4/api/v1/device/strategy/tables/int64s/i64table/_string?startIndex=10  with body of the POST request set to [ \"1\", \"2\", \"3\" ]\n",
+            "description": "\"Write a range of table elements\"\n#### Examples ####\n* Write the values (1, 2, 3) to 3 consecutive elements in a table named i64table starting with the element at index 10:POST to https://1.2.3.4/api/v1/device/strategy/tables/int64s/i64table/_string?startIndex=10  with body of the POST request set to [ \"1\", \"2\", \"3\" ]\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/writeInt64TableAsString.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readInt64TableElement": {
+            "main": "./lib/actions/readInt64TableElement.js",
+            "title": "Read specified integer64 table element",
+            "description": "Read specified integer64 table element",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readInt64TableElement.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "writeInt64TableElement": {
+            "main": "./lib/actions/writeInt64TableElement.js",
+            "title": "Write specified integer64 table element",
+            "description": "Write specified integer64 table element",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/writeInt64TableElement.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readInt64TableElementAsString": {
+            "main": "./lib/actions/readInt64TableElementAsString.js",
+            "title": "Read specified integer64 table element as string",
+            "description": "Read specified integer64 table element as string",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readInt64TableElementAsString.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "writeInt64TableElementAsString": {
+            "main": "./lib/actions/writeInt64TableElementAsString.js",
+            "title": "Write specified integer64 table element as string",
+            "description": "Write specified integer64 table element as string",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/writeInt64TableElementAsString.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readStringTables": {
+            "main": "./lib/actions/readStringTables.js",
+            "title": "Returns an array of the name and length of all the string tables in the strategy",
+            "description": "Returns an array of the name and length of all the string tables in the strategy",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readStringTables.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readStringTable": {
+            "main": "./lib/actions/readStringTable.js",
+            "title": "\"Read a range of table elements from the specified string table\"\n #### Examples ####\n * Read all elements in a table named strTable: https://1.2.3.4/api/v1/device/strategy/tables/strings/strTable\n * Read elements 5 and up in a table named i64table starting with index 5: https://1.2.3.4/api/v1/device/strategy/tables/strings/strTable?startIndex=5\n * Read 3 consecutive elements in a table named i64table starting with the element at index 10: https://1.2.3.4/api/v1/device/strategy/tables/strings/strTable?startIndex=10&numElements=3\n",
+            "description": "\"Read a range of table elements from the specified string table\"\n #### Examples ####\n * Read all elements in a table named strTable: https://1.2.3.4/api/v1/device/strategy/tables/strings/strTable\n * Read elements 5 and up in a table named i64table starting with index 5: https://1.2.3.4/api/v1/device/strategy/tables/strings/strTable?startIndex=5\n * Read 3 consecutive elements in a table named i64table starting with the element at index 10: https://1.2.3.4/api/v1/device/strategy/tables/strings/strTable?startIndex=10&numElements=3\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readStringTable.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "writeStringTable": {
+            "main": "./lib/actions/writeStringTable.js",
+            "title": "\"Write a range of table elements\"\n#### Examples ####\n* Write the values (\"first\", \"second\", \"third\") to 3 consecutive elements in a table named strTable starting with the element at index 10:POST to https://1.2.3.4/api/v1/device/strategy/tables/strings/strtable?startIndex=10  with body of the POST request set to [ \"first\", \"second\", \"third\" ]\n",
+            "description": "\"Write a range of table elements\"\n#### Examples ####\n* Write the values (\"first\", \"second\", \"third\") to 3 consecutive elements in a table named strTable starting with the element at index 10:POST to https://1.2.3.4/api/v1/device/strategy/tables/strings/strtable?startIndex=10  with body of the POST request set to [ \"first\", \"second\", \"third\" ]\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/writeStringTable.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readStringTableElement": {
+            "main": "./lib/actions/readStringTableElement.js",
+            "title": "Read specified table element",
+            "description": "Read specified table element",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readStringTableElement.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "writeStringTableElement": {
+            "main": "./lib/actions/writeStringTableElement.js",
+            "title": "Write specified table element",
+            "description": "Write specified table element",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/writeStringTableElement.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readDownTimerVars": {
+            "main": "./lib/actions/readDownTimerVars.js",
+            "title": "Returns the name and current value of all down timers in the strategy",
+            "description": "Returns the name and current value of all down timers in the strategy",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readDownTimerVars.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readDownTimerValue": {
+            "main": "./lib/actions/readDownTimerValue.js",
+            "title": "Returns current value of the specified down timer",
+            "description": "Returns current value of the specified down timer",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readDownTimerValue.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readFloatVars": {
+            "main": "./lib/actions/readFloatVars.js",
+            "title": "Returns the name and value of all (single-precision) float variables in the strategy",
+            "description": "Returns the name and value of all (single-precision) float variables in the strategy",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readFloatVars.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readFloatVar": {
+            "main": "./lib/actions/readFloatVar.js",
+            "title": "Returns value of the specified float variable",
+            "description": "Returns value of the specified float variable",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readFloatVar.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "writeFloatVar": {
+            "main": "./lib/actions/writeFloatVar.js",
+            "title": "Sets the value of a float variable",
+            "description": "Sets the value of a float variable",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/writeFloatVar.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readInt32Vars": {
+            "main": "./lib/actions/readInt32Vars.js",
+            "title": "Returns the name and value of all integer32 variables in the strategy",
+            "description": "Returns the name and value of all integer32 variables in the strategy",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readInt32Vars.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readInt32Var": {
+            "main": "./lib/actions/readInt32Var.js",
+            "title": "Returns value of the specified integer32 variable",
+            "description": "Returns value of the specified integer32 variable",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readInt32Var.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "writeInt32Var": {
+            "main": "./lib/actions/writeInt32Var.js",
+            "title": "Sets the value of an integer32 variable",
+            "description": "Sets the value of an integer32 variable",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/writeInt32Var.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readInt64Vars": {
+            "main": "./lib/actions/readInt64Vars.js",
+            "title": "Returns the name and value of all integer64 variables in the strategy",
+            "description": "Returns the name and value of all integer64 variables in the strategy",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readInt64Vars.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readInt64VarsAsStrings": {
+            "main": "./lib/actions/readInt64VarsAsStrings.js",
+            "title": "Returns the name and value as a string of all integer64 variables in the strategy",
+            "description": "Returns the name and value as a string of all integer64 variables in the strategy",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readInt64VarsAsStrings.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readInt64Var": {
+            "main": "./lib/actions/readInt64Var.js",
+            "title": "Returns value of the specified integer64 variable",
+            "description": "Returns value of the specified integer64 variable",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readInt64Var.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "writeInt64Var": {
+            "main": "./lib/actions/writeInt64Var.js",
+            "title": "Sets the value of an integer64 variable",
+            "description": "Sets the value of an integer64 variable",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/writeInt64Var.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readInt64VarAsString": {
+            "main": "./lib/actions/readInt64VarAsString.js",
+            "title": "Returns value of the specified integer64 variable as a string",
+            "description": "Returns value of the specified integer64 variable as a string",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readInt64VarAsString.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "writeInt64VarAsString": {
+            "main": "./lib/actions/writeInt64VarAsString.js",
+            "title": "Sets the value of an integer64 variable as a string",
+            "description": "Sets the value of an integer64 variable as a string",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/writeInt64VarAsString.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readStringVars": {
+            "main": "./lib/actions/readStringVars.js",
+            "title": "Returns the name and value of all string variables in the strategy",
+            "description": "Returns the name and value of all string variables in the strategy",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readStringVars.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readStringVar": {
+            "main": "./lib/actions/readStringVar.js",
+            "title": "Returns value of the specified string",
+            "description": "Returns value of the specified string",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readStringVar.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "writeStringVar": {
+            "main": "./lib/actions/writeStringVar.js",
+            "title": "Sets the value of a string variable",
+            "description": "Sets the value of a string variable",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/writeStringVar.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readUpTimerVars": {
+            "main": "./lib/actions/readUpTimerVars.js",
+            "title": "Returns the name and current value of all up timers in the strategy",
+            "description": "Returns the name and current value of all up timers in the strategy",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readUpTimerVars.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "readUpTimerValue": {
+            "main": "./lib/actions/readUpTimerValue.js",
+            "title": "Returns current value of the specified up timer",
+            "description": "Returns current value of the specified up timer",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/readUpTimerValue.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        }
+    }
+}

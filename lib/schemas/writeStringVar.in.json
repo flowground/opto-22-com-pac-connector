@@ -1,0 +1,19 @@
+{
+    "type": "object",
+    "properties": {
+        "stringName": {
+            "required": true,
+            "type": "string"
+        },
+        "requestBody": {
+            "properties": {
+                "value": {
+                    "description": "The value of a string; string width (max length) for each string variable is defined in the strategy",
+                    "maxLength": 1024,
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        }
+    }
+}

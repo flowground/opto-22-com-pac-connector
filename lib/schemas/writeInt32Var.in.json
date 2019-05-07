@@ -1,0 +1,19 @@
+{
+    "type": "object",
+    "properties": {
+        "int32Name": {
+            "required": true,
+            "type": "string"
+        },
+        "requestBody": {
+            "properties": {
+                "value": {
+                    "description": "Value of the integer32 variable",
+                    "format": "int32",
+                    "type": "integer"
+                }
+            },
+            "type": "object"
+        }
+    }
+}

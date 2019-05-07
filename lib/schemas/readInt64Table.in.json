@@ -1,0 +1,19 @@
+{
+    "type": "object",
+    "properties": {
+        "tableName": {
+            "required": true,
+            "type": "string"
+        },
+        "startIndex": {
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+        },
+        "numElements": {
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+        }
+    }
+}

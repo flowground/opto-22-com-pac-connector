@@ -1,0 +1,18 @@
+{
+    "type": "object",
+    "properties": {
+        "ioName": {
+            "required": true,
+            "type": "string"
+        },
+        "requestBody": {
+            "properties": {
+                "value": {
+                    "description": "State of a digital point (true = on, false = off)",
+                    "type": "boolean"
+                }
+            },
+            "type": "object"
+        }
+    }
+}

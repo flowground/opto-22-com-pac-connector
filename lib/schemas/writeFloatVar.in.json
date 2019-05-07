@@ -1,0 +1,19 @@
+{
+    "type": "object",
+    "properties": {
+        "floatName": {
+            "required": true,
+            "type": "string"
+        },
+        "requestBody": {
+            "properties": {
+                "value": {
+                    "description": "Value of the float variable",
+                    "format": "float",
+                    "type": "number"
+                }
+            },
+            "type": "object"
+        }
+    }
+}

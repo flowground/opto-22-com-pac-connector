@@ -1,0 +1,24 @@
+{
+    "type": "object",
+    "properties": {
+        "tableName": {
+            "required": true,
+            "type": "string"
+        },
+        "index": {
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+        },
+        "requestBody": {
+            "properties": {
+                "value": {
+                    "description": "Value of the float variable",
+                    "format": "float",
+                    "type": "number"
+                }
+            },
+            "type": "object"
+        }
+    }
+}

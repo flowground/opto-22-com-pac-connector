@@ -1,0 +1,9 @@
+{
+    "type": "object",
+    "properties": {
+        "floatName": {
+            "required": true,
+            "type": "string"
+        }
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "type": "object",
+    "properties": {
+        "int64Name": {
+            "required": true,
+            "type": "string"
+        },
+        "requestBody": {
+            "properties": {
+                "value": {
+                    "description": "Value of the integer64 variable expressed as decimal string, e.g. \"34359738367\"",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        }
+    }
+}

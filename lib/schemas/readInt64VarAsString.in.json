@@ -1,0 +1,9 @@
+{
+    "type": "object",
+    "properties": {
+        "int64Name": {
+            "required": true,
+            "type": "string"
+        }
+    }
+}
